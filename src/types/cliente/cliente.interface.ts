@@ -3,10 +3,10 @@ export interface ICliente
 {
     nome:           string;
     email:          string;
-    cpf  :          string;
+    cpf_cnpj:       string;
     senha:          string;
     criado_em:      Date;
     atualizado_em:  Date;
 }
 
-export type ICriarCliente = Pick<ICliente, "nome" | "email" | "cpf" | "senha">
+export type ICriarCliente = Pick<ICliente, "nome" | "email" | "cpf_cnpj" | "senha">
