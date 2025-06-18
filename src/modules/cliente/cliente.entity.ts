@@ -12,7 +12,7 @@ export class Cliente implements ICliente
     cpf_cnpj:       string;
     @Column({unique:true})
     email:          string;
-    @Column()
+    @Column({select: false})
     senha:          string;
     @CreateDateColumn({type: "timestamptz"})
     criado_em:      Date;

@@ -1,10 +1,16 @@
-import { Controller, Delete, Get, Patch, Post } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Patch, Post } from "@nestjs/common";
 import { ApiOperation, ApiTags } from "@nestjs/swagger";
+import { CriarClienteDto } from "./dtos/criar-cliente.dto";
+import { ClienteService } from "./cliente.service";
 
 @Controller("/cliente")
 @ApiTags("Cliente")
 export class ClienteController
 {
+    constructor(
+        private readonly service: ClienteService
+    ){}
+
     @Get("/id/:id")
     @ApiOperation({summary: "Busca um cliente pelo Id"})
     async buscarPorId()
@@ -28,9 +34,10 @@ export class ClienteController
 
     @Post('/')
     @ApiOperation({summary: "Cria um novo cliente"})
-    async criar()
+    async criar(@Body() dto: CriarClienteDto)
     {
-
+        const cliente = await this.service.criar(dto);
+        return { cliente }
     }
 
     @Patch('/:id')
