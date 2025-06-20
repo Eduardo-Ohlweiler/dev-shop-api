@@ -37,7 +37,10 @@ export class ClienteController
     async criar(@Body() dto: CriarClienteDto)
     {
         const cliente = await this.service.criar(dto);
-        return { cliente }
+        return {
+            mensagem: 'Cliente cadastrado com sucesso',
+            cliente
+        }
     }
 
     @Patch('/:id')

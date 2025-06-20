@@ -37,7 +37,7 @@ export class ClienteService
             senha: hash
         })
 
-        const cliente_db = await this.repository.save(cliente);
+        const {senha: _, email: __, cpf_cnpj: ___, ...cliente_db} = await this.repository.save(cliente);
         return cliente_db;
     }
 }
