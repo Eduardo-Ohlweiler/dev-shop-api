@@ -1,7 +1,9 @@
-import { Body, Controller, Delete, Get, Patch, Post } from "@nestjs/common";
-import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
+import { Body, Controller, Delete, Get, Param, Patch, Post } from "@nestjs/common";
+import { ApiBearerAuth, ApiOperation, ApiParam, ApiTags } from "@nestjs/swagger";
 import { CriarClienteDto } from "./dtos/criar-cliente.dto";
 import { ClienteService } from "./cliente.service";
+import { Publico } from "../auth/auth.guard";
+import { IdDTO } from "src/common/decorators/id.dto";
 
 @Controller("/cliente")
 @ApiTags("Cliente")
@@ -11,10 +13,11 @@ export class ClienteController
         private readonly service: ClienteService
     ){}
 
-    @Get("/id/:id")
+    @Get("/:id")
     @ApiOperation({summary: "Busca um cliente pelo Id"})
     @ApiBearerAuth()
-    async buscarPorId()
+    @ApiParam({name: 'id', type: Number, required:true})
+    async buscarPorId(@Param() param: IdDTO)
     {
 
     }
@@ -29,6 +32,7 @@ export class ClienteController
 
     @Post('/')
     @ApiOperation({summary: "Cria um novo cliente"})
+    @Publico()
     async criar(@Body() dto: CriarClienteDto)
     {
         const cliente = await this.service.criar(dto);
@@ -41,7 +45,8 @@ export class ClienteController
     @Patch('/:id')
     @ApiOperation({summary: "Atualiza um cliente por id"})
     @ApiBearerAuth()
-    async atualizar()
+    @ApiParam({name: 'id', type: Number, required:true})
+    async atualizar(@Param() param: IdDTO)
     {
 
     }
@@ -49,7 +54,8 @@ export class ClienteController
     @Delete('/:id')
     @ApiOperation({summary: "Deleta um cliente pelo id"})
     @ApiBearerAuth()
-    async deletar()
+    @ApiParam({name: 'id', type: Number, required:true})
+    async deletar(@Param() param: IdDTO)
     {
 
     }
