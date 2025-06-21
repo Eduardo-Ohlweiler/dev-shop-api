@@ -5,7 +5,7 @@ import { ETipoAcesso } from "src/types/auth/tipo-acesso.enum";
 
 export class LoginDTO implements ILogin{
 
-    @IsEnum({message: `O campo 'tipo' deve ser: ${Object.values(ETipoAcesso).join(',')}`})
+    @IsEnum({message: `O campo 'tipo' deve ser: ${Object.values(ETipoAcesso).join(',')}.`})
     @IsNotEmpty({message: "O campo 'tipo' é preenchimento obrigatório"})
     @ApiProperty({description: "Define qual sera o tipo de acesso utilizado"})
     tipo: ETipoAcesso;

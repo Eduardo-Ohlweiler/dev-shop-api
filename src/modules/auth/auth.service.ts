@@ -1,4 +1,4 @@
-import { BadGatewayException, BadRequestException, Injectable, UnauthorizedException } from "@nestjs/common";
+import { BadRequestException, Injectable, UnauthorizedException } from "@nestjs/common";
 import { ClienteService } from "../cliente/cliente.service";
 import { JwtService } from "@nestjs/jwt";
 import { LoginDTO } from "./dtos/login.dto";
@@ -9,7 +9,7 @@ import * as bcrypt from "bcrypt";
 export class AuthService
 {
     constructor(
-        private readonly clienteService: ClienteService     ,
+        private readonly clienteService: ClienteService,
         private readonly jwtService: JwtService 
     ){}
 
@@ -32,7 +32,7 @@ export class AuthService
         }
         if(!response) throw new BadRequestException();
 
-        const match = await bcrypt.compare(dto.senha,response?.senha)
+        const match = await bcrypt.compare(dto.senha,response.senha)
         if(!match)
             throw new UnauthorizedException("Credenciais invalidas");
 

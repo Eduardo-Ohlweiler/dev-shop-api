@@ -1,5 +1,5 @@
 import { Controller, Delete, Get, Patch, Post } from '@nestjs/common';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 
 @Controller('/produto')
 @ApiTags("Produto")
@@ -15,13 +15,16 @@ export class ProdutoController
 
     @Post('/')
     @ApiOperation({summary: "Cria um novo produto"})
+    @ApiBearerAuth()
     async criar(){}
 
     @Patch('/:id')
     @ApiOperation({summary: "Atualiza um produto pelo id"})
+    @ApiBearerAuth()
     async atualizar(){}
 
     @Delete('/:id')
     @ApiOperation({summary: "Deleta um produto pelo id"})
+    @ApiBearerAuth()
     async deletar(){}
 }

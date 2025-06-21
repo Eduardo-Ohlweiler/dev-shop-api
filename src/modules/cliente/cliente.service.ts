@@ -44,7 +44,7 @@ export class ClienteService
     async bucarPorEmail(email: string){
         const cliente = await this.repository.findOne({
             where: {
-                email
+                email: email.toLowerCase()
             },
             select: {
                 id: true,

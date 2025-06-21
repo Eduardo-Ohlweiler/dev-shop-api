@@ -1,17 +1,14 @@
 import { Controller, Delete, Get, Patch, Post } from "@nestjs/common";
-import { ApiOperation, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 
 @Controller("/suporte")
 @ApiTags("Suporte")
+@ApiBearerAuth()
 export class SuporteController
 {
     @Get('/id/:id')
     @ApiOperation({summary: 'Buscar usuario suporte pelo id'})
     async buscarPorId(){}
-
-    @Get('/email/:email')
-    @ApiOperation({summary: 'Buscar usuario suporte pelo email'})
-    async buscarPorEmail(){}
 
     @Get('/all')
     @ApiOperation({summary: 'Buscar todos os usuario suporte'})

@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Patch, Post } from "@nestjs/common";
-import { ApiOperation, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { CriarClienteDto } from "./dtos/criar-cliente.dto";
 import { ClienteService } from "./cliente.service";
 
@@ -13,20 +13,15 @@ export class ClienteController
 
     @Get("/id/:id")
     @ApiOperation({summary: "Busca um cliente pelo Id"})
+    @ApiBearerAuth()
     async buscarPorId()
-    {
-
-    }
-
-    @Get("/email/:email")
-    @ApiOperation({summary: "Busca um cliente pelo email"})
-    async buscarPorEmail()
     {
 
     }
 
     @Get('/all')
     @ApiOperation({summary: "Busca todos os clientes"})
+    @ApiBearerAuth()
     async buscarTodos()
     {
 
@@ -45,6 +40,7 @@ export class ClienteController
 
     @Patch('/:id')
     @ApiOperation({summary: "Atualiza um cliente por id"})
+    @ApiBearerAuth()
     async atualizar()
     {
 
@@ -52,6 +48,7 @@ export class ClienteController
 
     @Delete('/:id')
     @ApiOperation({summary: "Deleta um cliente pelo id"})
+    @ApiBearerAuth()
     async deletar()
     {
 
