@@ -1,26 +1,30 @@
-import { Controller, Delete, Get, Patch, Post } from "@nestjs/common";
-import { ApiOperation, ApiTags } from "@nestjs/swagger";
+import { Body, Controller, Delete, Get, Param, Patch, Post } from "@nestjs/common";
+import { ApiBearerAuth, ApiOperation, ApiParam, ApiTags } from "@nestjs/swagger";
+import { CriarClienteDto } from "./dtos/criar-cliente.dto";
+import { ClienteService } from "./cliente.service";
+import { Publico } from "../auth/auth.guard";
+import { IdDTO } from "src/common/decorators/id.dto";
 
 @Controller("/cliente")
 @ApiTags("Cliente")
 export class ClienteController
 {
-    @Get("/id/:id")
+    constructor(
+        private readonly service: ClienteService
+    ){}
+
+    @Get("/:id")
     @ApiOperation({summary: "Busca um cliente pelo Id"})
-    async buscarPorId()
-    {
-
-    }
-
-    @Get("/email/:email")
-    @ApiOperation({summary: "Busca um cliente pelo email"})
-    async buscarPorEmail()
+    @ApiBearerAuth()
+    @ApiParam({name: 'id', type: Number, required:true})
+    async buscarPorId(@Param() param: IdDTO)
     {
 
     }
 
     @Get('/all')
     @ApiOperation({summary: "Busca todos os clientes"})
+    @ApiBearerAuth()
     async buscarTodos()
     {
 
@@ -28,21 +32,30 @@ export class ClienteController
 
     @Post('/')
     @ApiOperation({summary: "Cria um novo cliente"})
-    async criar()
+    @Publico()
+    async criar(@Body() dto: CriarClienteDto)
     {
-
+        const cliente = await this.service.criar(dto);
+        return {
+            mensagem: 'Cliente cadastrado com sucesso',
+            cliente
+        }
     }
 
     @Patch('/:id')
     @ApiOperation({summary: "Atualiza um cliente por id"})
-    async atualizar()
+    @ApiBearerAuth()
+    @ApiParam({name: 'id', type: Number, required:true})
+    async atualizar(@Param() param: IdDTO)
     {
 
     }
 
     @Delete('/:id')
     @ApiOperation({summary: "Deleta um cliente pelo id"})
-    async deletar()
+    @ApiBearerAuth()
+    @ApiParam({name: 'id', type: Number, required:true})
+    async deletar(@Param() param: IdDTO)
     {
 
     }
