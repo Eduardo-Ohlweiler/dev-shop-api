@@ -1,4 +1,4 @@
-import { ConflictException, Injectable } from "@nestjs/common";
+import { ConflictException, Injectable, NotFoundException } from "@nestjs/common";
 import { CriarClienteDto } from "./dtos/criar-cliente.dto";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Cliente } from "./cliente.entity";
@@ -39,5 +39,21 @@ export class ClienteService
 
         const {senha: _, email: __, cpf_cnpj: ___, ...cliente_db} = await this.repository.save(cliente);
         return cliente_db;
+    }
+
+    async bucarPorEmail(email: string){
+        const cliente = await this.repository.findOne({
+            where: {
+                email
+            },
+            select: {
+                id: true,
+                senha: true
+            }
+        })
+
+        if(!cliente) throw new NotFoundException("Nenhum cliente encontrado");
+
+        return cliente;
     }
 }
