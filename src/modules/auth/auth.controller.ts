@@ -2,6 +2,7 @@ import { Body, Controller, Delete, Head, HttpStatus, Post } from "@nestjs/common
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { LoginDTO } from "./dtos/login.dto";
 import { AuthService } from "./auth.service";
+import { Publico } from "./auth.guard";
 
 @Controller('/auth')
 @ApiTags("Autenticação")
@@ -27,6 +28,7 @@ export class AuthController
         summary:"Realiza a autenticação.", 
         description: "Rota responsavel pela autenticação do sistema, retornaum token JWT."
     })
+    @Publico()
     async login(@Body() dto: LoginDTO){
         const token = await this.service.login(dto);
         return{
