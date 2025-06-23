@@ -4,6 +4,8 @@ import { CriarClienteDto } from "./dtos/criar-cliente.dto";
 import { ClienteService } from "./cliente.service";
 import { Publico } from "../auth/auth.guard";
 import { IdDTO } from "src/common/decorators/id.dto";
+import { Perfil } from "src/common/decorators/perfil.decorator";
+import { ETipoAcesso } from "src/types/auth/tipo-acesso.enum";
 
 @Controller("/cliente")
 @ApiTags("Cliente")
@@ -25,6 +27,7 @@ export class ClienteController
     @Get('/all')
     @ApiOperation({summary: "Busca todos os clientes"})
     @ApiBearerAuth()
+    @Perfil(ETipoAcesso.USUARIO)
     async buscarTodos()
     {
 
@@ -46,6 +49,7 @@ export class ClienteController
     @ApiOperation({summary: "Atualiza um cliente por id"})
     @ApiBearerAuth()
     @ApiParam({name: 'id', type: Number, required:true})
+    @Perfil(ETipoAcesso.CLIENTE)
     async atualizar(@Param() param: IdDTO)
     {
 
@@ -55,6 +59,7 @@ export class ClienteController
     @ApiOperation({summary: "Deleta um cliente pelo id"})
     @ApiBearerAuth()
     @ApiParam({name: 'id', type: Number, required:true})
+    @Perfil(ETipoAcesso.CLIENTE)
     async deletar(@Param() param: IdDTO)
     {
 
