@@ -9,4 +9,6 @@ export interface ICliente
     atualizado_em:  Date;
 }
 
-export type ICriarCliente = Pick<ICliente, "nome" | "email" | "cpf_cnpj" | "senha">
+export type ICriarCliente     = Pick<ICliente, "nome" | "email" | "cpf_cnpj" | "senha">
+
+export type IAtualizarCliente = Partial<Omit<ICliente, "id" | "criado_em" | "atualizado_em">>

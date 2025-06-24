@@ -1,7 +1,7 @@
 import { Controller, Delete, Get, Patch, Post } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Publico } from '../auth/auth.guard';
-import { Perfil } from 'src/common/decorators/perfil.decorator';
+import { Perfil } from 'src/modules/auth/perfil.guard';
 import { ETipoAcesso } from 'src/types/auth/tipo-acesso.enum';
 
 @Controller('/produto')

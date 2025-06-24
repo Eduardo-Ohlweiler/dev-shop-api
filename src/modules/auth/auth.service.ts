@@ -4,6 +4,7 @@ import { JwtService } from "@nestjs/jwt";
 import { LoginDTO } from "./dtos/login.dto";
 import { ETipoAcesso } from "src/types/auth/tipo-acesso.enum";
 import * as bcrypt from "bcrypt";
+import { IAuth } from "src/types/auth/auth.interface";
 
 @Injectable()
 export class AuthService
@@ -36,7 +37,7 @@ export class AuthService
         if(!match)
             throw new UnauthorizedException("Credenciais invalidas");
 
-        const payload = {tipo: dto.tipo, id: response.id};
+        const payload: IAuth = {tipo: dto.tipo, id: response.id};
         const token   = this.jwtService.sign(payload);
         return token;
     }

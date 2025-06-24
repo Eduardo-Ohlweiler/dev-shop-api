@@ -3,9 +3,12 @@ import { ApiBearerAuth, ApiOperation, ApiParam, ApiTags } from "@nestjs/swagger"
 import { CriarClienteDto } from "./dtos/criar-cliente.dto";
 import { ClienteService } from "./cliente.service";
 import { Publico } from "../auth/auth.guard";
-import { IdDTO } from "src/common/decorators/id.dto";
-import { Perfil } from "src/common/decorators/perfil.decorator";
+import { IdDTO } from "src/common/dtos/id.dto";
+import { Perfil } from "src/modules/auth/perfil.guard";
 import { ETipoAcesso } from "src/types/auth/tipo-acesso.enum";
+import { Auth } from "src/common/decorators/auth.decorator";
+import { AtuaizarClienteDto } from "./dtos/atualizar-cliente.dto";
+import { IAuth } from "src/types/auth/auth.interface";
 
 @Controller("/cliente")
 @ApiTags("Cliente")
@@ -21,7 +24,7 @@ export class ClienteController
     @ApiParam({name: 'id', type: Number, required:true})
     async buscarPorId(@Param() param: IdDTO)
     {
-
+        return await this.service.buscarPorId(param.id)
     }
 
     @Get('/all')
@@ -41,18 +44,20 @@ export class ClienteController
         const cliente = await this.service.criar(dto);
         return {
             mensagem: 'Cliente cadastrado com sucesso',
-            cliente
+            data: cliente
         }
     }
 
-    @Patch('/:id')
+    @Patch('/')
     @ApiOperation({summary: "Atualiza um cliente por id"})
     @ApiBearerAuth()
-    @ApiParam({name: 'id', type: Number, required:true})
     @Perfil(ETipoAcesso.CLIENTE)
-    async atualizar(@Param() param: IdDTO)
+    async atualizar(@Auth() auth: IAuth,@Body() dto: AtuaizarClienteDto)
     {
-
+        const cliente = await this.service.atualizar(auth.id, dto)
+        return{
+            mensagem: `Cliente '${cliente.id}' atualizado com sucesso`, data: cliente
+        }
     }
 
     @Delete('/:id')
