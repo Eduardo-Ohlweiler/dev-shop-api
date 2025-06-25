@@ -5,12 +5,14 @@ import { LoginDTO } from "./dtos/login.dto";
 import { ETipoAcesso } from "src/types/auth/tipo-acesso.enum";
 import * as bcrypt from "bcrypt";
 import { IAuth } from "src/types/auth/auth.interface";
+import { SuporteService } from "../suporte/suporte.service";
 
 @Injectable()
 export class AuthService
 {
     constructor(
         private readonly clienteService: ClienteService,
+        private readonly suporteService: SuporteService,
         private readonly jwtService: JwtService 
     ){}
 
@@ -20,6 +22,12 @@ export class AuthService
 
         switch(dto.tipo){
             case ETipoAcesso.USUARIO:
+                const usuario = await this.suporteService.buscarPorEmail(dto.identificador);
+                if(!usuario.ativo) throw new UnauthorizedException("Acesso não autorizado");
+                response = {
+                    id:    usuario.id,
+                    senha: usuario.senha
+                }
                 break;
             case ETipoAcesso.CLIENTE:
             {
